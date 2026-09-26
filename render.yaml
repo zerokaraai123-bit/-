@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: face-sim-app
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: RATE_LIMIT_PER_HOUR
+        value: 20
