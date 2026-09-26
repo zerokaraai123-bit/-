@@ -148,6 +148,8 @@ app.post('/api/edit', limiter, upload.single('photo'), async (req, res) => {
     return res.json({ image: `data:image/png;base64,${b64}` });
   } catch (err) {
     console.error('edit error:', err.message);
+    console.error('edit error cause:', err.cause);
+    console.error('edit error stack:', err.stack);
     return res.status(500).json({ error: '処理に失敗しました: ' + err.message });
   } finally {
     if (req.file) req.file.buffer = null;
