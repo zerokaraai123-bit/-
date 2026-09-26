@@ -37,7 +37,10 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'public')));
 
 const openai = process.env.OPENAI_API_KEY
-  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY })
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY,
+      maxRetries: 5,
+      timeout: 120000,
+    })
   : null;
 
 const HAIRSTYLE_PRESETS = {
