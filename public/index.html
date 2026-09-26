@@ -319,7 +319,6 @@ document.querySelectorAll('.mode-tab').forEach((tab) => {
   });
 });
 
-uploadBox.addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', () => {
   const file = fileInput.files[0];
   if (!file) return;
@@ -329,6 +328,10 @@ fileInput.addEventListener('change', () => {
     previewImg.src = e.target.result;
     previewImg.style.display = 'block';
     uploadPlaceholder.style.display = 'none';
+  };
+  reader.onerror = () => {
+    statusEl.textContent = '写真の読み込みに失敗しました。別の写真で試してください。';
+    statusEl.classList.add('error');
   };
   reader.readAsDataURL(file);
   updateSubmitState();
