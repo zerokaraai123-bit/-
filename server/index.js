@@ -7,6 +7,7 @@ const multer = require('multer');
 const rateLimit = require('express-rate-limit');
 const path = require('path');
 const OpenAI = require('openai');
+const sharp = require('sharp');
 
 const app = express();
 app.set('trust proxy', 1);
@@ -133,9 +134,14 @@ app.post('/api/edit', limiter, upload.single('photo'), async (req, res) => {
 
     const prompt = buildPrompt(mode, options);
 
-    const imageFile = await OpenAI.toFile(req.file.buffer, 'photo.png', {
-      type: req.file.mimetype,
-    });
+    const resizedBuffer = await sharp(req.file.buffer)
+  .resize(1024, 1024, { fit: 'inside', withoutEnlargement: true })
+  .jpeg({ quality: 85 })
+  .toBuffer();
+
+const imageFile = await OpenAI.toFile(resizedBuffer, 'photo.jpg', {
+  type: 'image/jpeg',
+});
 
     const result = await openai.images.edit({
       model: 'gpt-image-1',
