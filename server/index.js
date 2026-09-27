@@ -141,8 +141,8 @@ app.post('/api/edit', limiter, upload.single('photo'), async (req, res) => {
     const prompt = buildPrompt(mode, options);
 
     const resizedBuffer = await sharp(req.file.buffer)
-  .resize(1024, 1024, { fit: 'inside', withoutEnlargement: true })
-  .jpeg({ quality: 85 })
+  .resize(1024, 1536, { fit: 'inside', withoutEnlargement: true })
+  .jpeg({ quality: 92 })
   .toBuffer();
 
 const imageFile = await OpenAI.toFile(resizedBuffer, 'photo.jpg', {
@@ -153,7 +153,9 @@ const imageFile = await OpenAI.toFile(resizedBuffer, 'photo.jpg', {
       model: 'gpt-image-1',
       image: imageFile,
       prompt,
-      size: '1024x1024',
+      size: '1024x1536',
+      quality: 'high',
+      input_fidelity: 'high',
     });
 
     const b64 = result.data[0].b64_json;
