@@ -73,10 +73,16 @@ const IMPRESSION_PRESETS = {
 
 function buildPrompt(mode, options) {
   const base =
-    'Edit this portrait photo realistically. Keep the exact same person, ' +
-    'same facial identity, same facial structure, same expression, same pose, ' +
-    'same background and same lighting. Do not change the face shape, eyes, nose, ' +
-    'jawline or any bone structure. Make only the following change: ';
+     'This is a photo of a real person. Edit ONLY the hair/requested area and ' +
+    'nothing else. It is critical that the output is clearly recognizable as ' +
+    'the exact same individual: preserve their precise facial identity, facial ' +
+    'proportions, skin tone, eye color and shape, nose shape, mouth shape, ' +
+    'jawline, ears, expression, head angle, pose, camera framing, background ' +
+    'and lighting pixel-for-pixel where possible. Do not regenerate or restyle ' +
+    'the face in any way. Make only the following change, and nothing else: ';+
+    +
+    +
+    
 
   if (mode === 'hairstyle') {
     const style = HAIRSTYLE_PRESETS[options.styleKey] || options.customPrompt;
